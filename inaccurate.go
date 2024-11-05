@@ -20,7 +20,7 @@ func (v1 Inaccurate) Sub(v2 Inaccurate) (diff Inaccurate) {
 }
 
 func (v1 Inaccurate) Mul(v2 Inaccurate) (product Inaccurate) {
-	if v1.Value == 0 || v2.Value == 0 {
+	if v1.Value*v2.Value == 0 {
 		return v1.mul(v2)
 	}
 
@@ -81,3 +81,54 @@ func (v1 Inaccurate) div(v2 Inaccurate) (quotient Inaccurate) {
 
 	return v1.mul(v2)
 }
+
+func Acos(v Inaccurate) (result Inaccurate) {
+	if v.Error == 0 {
+		result.Value = math.Acos(v.Value)
+		result.Error = 0
+		return
+	}
+
+	if v.Value == -1 {
+		r := math.Acos(-1 + v.Error)
+		result.Value = math.Pi
+		result.Error = math.Pi - r
+		return
+	}
+	if v.Value == 1 {
+		result.Value = 0
+		result.Error = math.Acos(1 - v.Error)
+		return
+	}
+
+	result.Value = math.Acos(v.Value)
+	result.Error = math.Abs(-1 / (math.Sqrt(1 - v.Value*v.Value)) * v.Error)
+	return
+}
+
+/*
+
+func Acos(x float64) float64
+func Acosh(x float64) float64
+func Asin(x float64) float64
+func Asinh(x float64) float64
+func Atan(x float64) float64
+func Atan2(y, x float64) float64
+func Atanh(x float64) float64
+func Cbrt(x float64) float64
+func Cos(x float64) float64
+func Cosh(x float64) float64
+func Exp(x float64) float64
+func Exp2(x float64) float64
+func Log(x float64) float64
+func Log10(x float64) float64
+func Log2(x float64) float64
+func Pow(x, y float64) float64
+func Pow10(n int) float64
+func Sin(x float64) float64
+func Sinh(x float64) float64
+func Sqrt(x float64) float64
+func Tan(x float64) float64
+func Tanh(x float64) float64
+
+*/
