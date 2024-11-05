@@ -154,6 +154,9 @@ func TestDiv2(t *testing.T) {
 
 func TestAcos(t *testing.T) {
 	cases := [][2]Uncertain{
+		{{-1.5, 0.1}, {math.NaN(), math.NaN()}},
+		{{-1.5, 0}, {math.NaN(), 0}},
+		{{1.5, 0}, {math.NaN(), 0}},
 		{{-1, 0}, {3.14159265358979, 0}},
 		{{-1, 0.1}, {3.14159265358979, 0.451026811796262}},
 		{{-1, 0.2}, {3.14159265358979, 0.643501108793284}},
@@ -185,6 +188,16 @@ func TestAcos(t *testing.T) {
 
 	for i, the_case := range cases {
 		res := Acos(the_case[0])
+
+		if math.IsNaN(res.Value) {
+			if !math.IsNaN(the_case[1].Value) {
+				t.Fatalf("Test case %d failed: Acos(%f±%f) is %f±%f, got %f±%f",
+					i, the_case[0].Value, the_case[0].Error, the_case[1].Value, the_case[1].Error, res.Value, res.Error)
+			} else {
+				continue
+			}
+		}
+
 		if !almostEqual(res, the_case[1]) {
 			t.Fatalf("Test case %d failed: Acos(%f±%f) is %f±%f, got %f±%f",
 				i, the_case[0].Value, the_case[0].Error, the_case[1].Value, the_case[1].Error, res.Value, res.Error)
@@ -200,6 +213,9 @@ func TestAcosh(t *testing.T) {
 
 func TestAsin(t *testing.T) {
 	cases := [][2]Uncertain{
+		{{-1.5, 0.1}, {math.NaN(), math.NaN()}},
+		{{-1.5, 0}, {math.NaN(), 0}},
+		{{1.5, 0}, {math.NaN(), 0}},
 		{{-1, 0}, {-1.5707963267949, 0}},
 		{{-1, 0.1}, {-1.5707963267949, 0.451026811796262}},
 		{{-1, 0.2}, {-1.5707963267949, 0.643501108793284}},
@@ -246,6 +262,8 @@ func TestAsinh(t *testing.T) {
 
 func TestAtan(t *testing.T) {
 	cases := [][2]Uncertain{
+		{{math.Inf(-1), 10000}, {-math.Pi / 2, 0}},
+		{{math.Inf(1), 10000}, {math.Pi / 2, 0}},
 		{{-1, 0}, {-0.785398163397448, 0}},
 		{{-1, 0.1}, {-0.785398163397448, 0.05}},
 		{{-1, 0.2}, {-0.785398163397448, 0.1}},
@@ -284,6 +302,16 @@ func TestAtan(t *testing.T) {
 
 	for i, the_case := range cases {
 		res := Atan(the_case[0])
+
+		if math.IsNaN(res.Value) {
+			if !math.IsNaN(the_case[1].Value) {
+				t.Fatalf("Test case %d failed: Acos(%f±%f) is %f±%f, got %f±%f",
+					i, the_case[0].Value, the_case[0].Error, the_case[1].Value, the_case[1].Error, res.Value, res.Error)
+			} else {
+				continue
+			}
+		}
+
 		if !almostEqual(res, the_case[1]) {
 			t.Fatalf("Test case %d failed: Atan(%f±%f) is %f±%f, got %f±%f",
 				i, the_case[0].Value, the_case[0].Error, the_case[1].Value, the_case[1].Error, res.Value, res.Error)
@@ -291,9 +319,19 @@ func TestAtan(t *testing.T) {
 	}
 }
 
+/*
 func TestAtan2(t *testing.T) {
-}
+	cases := [][3]Uncertain{}
 
+	for i, the_case := range cases {
+		res := Atan2(the_case[0])
+		if !almostEqual(res, the_case[1]) {
+			t.Fatalf("Test case %d failed: Atan2(%f±%f, %f±%f) is %f±%f, got %f±%f",
+				i, the_case[0].Value, the_case[0].Error, the_case[1].Value, the_case[1].Error, res.Value, res.Error)
+		}
+	}
+}
+*/
 /*
 func TestAtanh(t *testing.T) {
 }

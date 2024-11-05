@@ -1,24 +1,36 @@
+// Package uncertain implements a value with error and provides
+// some mathematical functions that implement error propagation
 package uncertain
 
 import "math"
 
+// Uncetraint type represents an uncertain value, i.e., value with error
 type Uncertain struct {
 	Value float64
 	Error float64
 }
 
+// Add method returs the sum of its receiver and its argument. Absolute error is a sum of absolute errors.
 func (v1 Uncertain) Add(v2 Uncertain) (sum Uncertain) {
 	sum.Value = v1.Value + v2.Value
 	sum.Error = v1.Error + v2.Error
 	return
 }
 
+// Sub method returs the difference between its receiver and its argument. Absolute error is a sum of absolute errors.
 func (v1 Uncertain) Sub(v2 Uncertain) (diff Uncertain) {
 	diff.Value = v1.Value - v2.Value
 	diff.Error = v1.Error + v2.Error
 	return
 }
 
+// Mul method returs the product of its receiver and its argument. Relative error is a sum of relative errors.
+//
+// Special cases are:
+//
+//  v1.Value = 0
+//  v2.Value = 0
+//  - impossible to calculate relative error if the value is zero. Error is calculated by special function.
 func (v1 Uncertain) Mul(v2 Uncertain) (product Uncertain) {
 	if v1.Value*v2.Value == 0 {
 		return v1.mul(v2)
@@ -38,6 +50,8 @@ func (v1 Uncertain) Mul(v2 Uncertain) (product Uncertain) {
 	return
 }
 
+// mul is a special case function for Mul.
+// It works fine for any values including zeroes
 func (v1 Uncertain) mul(v2 Uncertain) (product Uncertain) {
 	product.Value = v1.Value * v2.Value
 
@@ -59,6 +73,12 @@ func (v1 Uncertain) mul(v2 Uncertain) (product Uncertain) {
 	return
 }
 
+// Div method returs the quotient of its receiver-dividend and its argument-divisor. Relative error is a sum of relative errors.
+//
+// Special cases are:
+//
+//  v1.Value = 0 - impossible to calculate relative error if the value is zero. Error is calculated by special function.
+//  v2.Value = 0 - if he divisor value is 0, both value and error of the result are NaN.
 func (v1 Uncertain) Div(v2 Uncertain) (quotient Uncertain) {
 	if v1.Value == 0 {
 		return v1.div(v2)
@@ -74,6 +94,8 @@ func (v1 Uncertain) Div(v2 Uncertain) (quotient Uncertain) {
 	return
 }
 
+// mul is a special case function for Mul.
+// It works fine for any values but zero divisor
 func (v1 Uncertain) div(v2 Uncertain) (quotient Uncertain) {
 	rel := v2.Error / v2.Value
 	v2.Value = 1 / v2.Value
@@ -82,6 +104,11 @@ func (v1 Uncertain) div(v2 Uncertain) (quotient Uncertain) {
 	return v1.mul(v2)
 }
 
+// Acos returns the arccosine, in radians, of v.Value and propagates error.
+//
+// Special case is:
+//
+//  Acos({x, e}) = {NaN, _} if x < -1 or x > 1
 func Acos(v Uncertain) (result Uncertain) {
 	if v.Error == 0 {
 		result.Value = math.Acos(v.Value)
@@ -108,6 +135,12 @@ func Acos(v Uncertain) (result Uncertain) {
 
 //func Acosh(x float64) float64
 
+// Asin returns the arcsine, in radians, of x.
+//
+// Special cases are:
+//
+//	Asin({±0, e}) = {±0, e}
+//	Asin({x, e}) = {NaN, _} if x < -1 or x > 1
 func Asin(v Uncertain) (result Uncertain) {
 	result.Value = math.Asin(v.Value)
 
@@ -131,13 +164,22 @@ func Asin(v Uncertain) (result Uncertain) {
 
 //func Asinh(x float64) float64
 
+// Atan returns the arctangent, in radians, of x.
+//
+// Special cases are:
+//
+//	Atan({±0, e}) = {±0, e}
+//	Atan({±Inf, e}) = {±Pi/2, 0}
 func Atan(v Uncertain) (result Uncertain) {
 	result.Value = math.Atan(v.Value)
 	result.Error = v.Error * (1.0 / (1.0 + v.Value*v.Value))
 	return
 }
 
-//func Atan2(y, x float64) float64
+func Atan2(v Uncertain) (result Uncertain) {
+
+	return
+}
 
 //func Atanh(x float64) float64
 
