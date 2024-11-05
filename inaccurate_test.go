@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-func AlmostEqual(a, b Inaccurate) bool {
+func almostEqual(a, b Inaccurate) bool {
 	threshold := 0.000000000001
 	return (math.Abs(a.Value-b.Value) <= threshold) && (math.Abs(a.Error-b.Error) <= threshold)
 }
@@ -27,7 +27,7 @@ func TestAdd(t *testing.T) {
 	}
 
 	for i := range v1 {
-		if !AlmostEqual(v1[i].Add(v2[i]), res[i]) {
+		if !almostEqual(v1[i].Add(v2[i]), res[i]) {
 			t.Fatalf("Test %d failed", i)
 		}
 	}
@@ -50,7 +50,7 @@ func TestSub(t *testing.T) {
 	}
 
 	for i := range v1 {
-		if !AlmostEqual(v1[i].Sub(v2[i]), res[i]) {
+		if !almostEqual(v1[i].Sub(v2[i]), res[i]) {
 			t.Fatalf("Test %d failed", i)
 		}
 	}
@@ -73,7 +73,7 @@ func TestMul(t *testing.T) {
 	}
 
 	for i := range v1 {
-		if !AlmostEqual(v1[i].Mul(v2[i]), res[i]) {
+		if !almostEqual(v1[i].Mul(v2[i]), res[i]) {
 			t.Fatalf("Test %d failed", i)
 		}
 	}
@@ -96,7 +96,7 @@ func TestMul2(t *testing.T) {
 	}
 
 	for i := range v1 {
-		if !AlmostEqual(v1[i].mul(v2[i]), res[i]) {
+		if !almostEqual(v1[i].mul(v2[i]), res[i]) {
 			t.Fatalf("Test %d failed", i)
 		}
 	}
@@ -123,7 +123,7 @@ func TestDiv(t *testing.T) {
 	}
 
 	for i := range v1 {
-		if !AlmostEqual(v1[i].Div(v2[i]), res[i]) {
+		if !almostEqual(v1[i].Div(v2[i]), res[i]) {
 			t.Fatalf("Test %d failed", i)
 		}
 	}
@@ -146,7 +146,7 @@ func TestDiv2(t *testing.T) {
 	}
 
 	for i := range v1 {
-		if !AlmostEqual(v1[i].div(v2[i]), res[i]) {
+		if !almostEqual(v1[i].div(v2[i]), res[i]) {
 			t.Fatalf("Test %d failed", i)
 		}
 	}
