@@ -130,21 +130,43 @@ func Asin(v Inaccurate) (result Inaccurate) {
 }
 
 //func Asinh(x float64) float64
-//func Atan(x float64) float64
+
+func Atan(v Inaccurate) (result Inaccurate) {
+	result.Value = math.Atan(v.Value)
+	result.Error = v.Error * (1.0 / (1.0 + v.Value*v.Value))
+	return
+}
+
 //func Atan2(y, x float64) float64
+
 //func Atanh(x float64) float64
+
 //func Cbrt(x float64) float64
+
 //func Cos(x float64) float64
+
 //func Cosh(x float64) float64
+
 //func Exp(x float64) float64
+
 //func Exp2(x float64) float64
+
 //func Log(x float64) float64
+
 //func Log10(x float64) float64
+
 //func Log2(x float64) float64
+
 //func Pow(x, y float64) float64
+
 //func Pow10(n int) float64
+
 //func Sin(x float64) float64
+
 //func Sinh(x float64) float64
+
 //func Sqrt(x float64) float64
+
 //func Tan(x float64) float64
+
 //func Tanh(x float64) float64
