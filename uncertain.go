@@ -135,7 +135,7 @@ func Acos(v Uncertain) (result Uncertain) {
 
 //func Acosh(x float64) float64
 
-// Asin returns the arcsine, in radians, of x.
+// Asin returns the arcsine, in radians, of v.Value and propagates error.
 //
 // Special cases are:
 //
@@ -164,7 +164,7 @@ func Asin(v Uncertain) (result Uncertain) {
 
 //func Asinh(x float64) float64
 
-// Atan returns the arctangent, in radians, of x.
+// Atan returns the arctangent, in radians, of v.Value and propagates error.
 //
 // Special cases are:
 //
@@ -176,7 +176,30 @@ func Atan(v Uncertain) (result Uncertain) {
 	return
 }
 
-func Atan2(v Uncertain) (result Uncertain) {
+// Atan2 returns the arc tangent of y/x, using
+// the signs of the two to determine the quadrant
+// of the return value, and propagates error.
+//
+// Special cases are (in order):
+//
+//	Atan2({y, ey}, {NaN, ex}) = {NaN, _}
+//	Atan2({NaN, ey}, {x, ex}) = {NaN, _}
+//	Atan2({+0, ey}, {x>=0, ex}) = {+0, ???}
+//	Atan2({-0, ey}, {x>=0, ex}) = {-0, ???}
+//	Atan2({+0, ey}, {x<=-0, ex}) = {+Pi, ???}
+//	Atan2({-0, ey}, {x<=-0, ex}) = {-Pi, ???}
+//	Atan2({y>0, ey}, {0, ex}) = {+Pi/2, ???}
+//	Atan2({y<0, ey}, {0, ex}) = {-Pi/2, ???}
+//	Atan2({+Inf, ey}, {+Inf, ex}) = {+Pi/4, ???}
+//	Atan2({-Inf, ey}, {+Inf, ex}) = {-Pi/4, ???}
+//	Atan2({+Inf, ey}, {-Inf, ex}) = {3Pi/4, ???}
+//	Atan2({-Inf, ey}, {-Inf, ex}) = {-3Pi/4, ???}
+//	Atan2({y, ey}, {+Inf, ex}) = {0, ???}
+//	Atan2({y>0, ey}, {-Inf, ex}) = {+Pi, ???}
+//	Atan2({y<0, ey}, {-Inf, ex}) = {-Pi, ???}
+//	Atan2({+Inf, ey}, {x, ex}) = {+Pi/2, ???}
+//	Atan2({-Inf, ey}, {x, ex}) = {-Pi/2, ???}
+func Atan2(y, x Uncertain) (result Uncertain) {
 
 	return
 }
