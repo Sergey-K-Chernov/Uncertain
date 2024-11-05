@@ -1,24 +1,24 @@
-package inaccurate
+package uncertain
 
 import (
 	"math"
 	"testing"
 )
 
-func almostEqual(a, b Inaccurate) bool {
+func almostEqual(a, b Uncertain) bool {
 	threshold := 0.0000000000001
 	return (math.Abs(a.Value-b.Value) <= threshold) && (math.Abs(a.Error-b.Error) <= threshold)
 }
 
 func TestAdd(t *testing.T) {
-	v1 := []Inaccurate{
+	v1 := []Uncertain{
 		{0, 0}, {0, 3}, {3, 3}, {1, 0.1}, {1, 0.1}, {-1, 0.1}, {-1, 0.1},
 	}
-	v2 := []Inaccurate{
+	v2 := []Uncertain{
 		{0, 0}, {3, 0}, {0, 3}, {1, 0.1}, {-1, 0.1}, {1, 0.1}, {-1, 0.1},
 	}
 
-	res := []Inaccurate{
+	res := []Uncertain{
 		{0, 0}, {3, 3}, {3, 6}, {2, 0.2}, {0, 0.2}, {0, 0.2}, {-2, 0.2},
 	}
 
@@ -34,14 +34,14 @@ func TestAdd(t *testing.T) {
 }
 
 func TestSub(t *testing.T) {
-	v1 := []Inaccurate{
+	v1 := []Uncertain{
 		{0, 0}, {10, 1}, {-100, 10}, {-100, 10}, {200, 50}, {200, 50},
 	}
-	v2 := []Inaccurate{
+	v2 := []Uncertain{
 		{0, 0}, {5, 0.5}, {100, 10}, {-100, 10}, {300, 30}, {-300, 30},
 	}
 
-	res := []Inaccurate{
+	res := []Uncertain{
 		{0, 0}, {5, 1.5}, {-200, 20}, {0, 20}, {-100, 80}, {500, 80},
 	}
 
@@ -57,14 +57,14 @@ func TestSub(t *testing.T) {
 }
 
 func TestMul(t *testing.T) {
-	v1 := []Inaccurate{
+	v1 := []Uncertain{
 		{7, 0}, {0, 0}, {10, 1}, {-2, 0.1}, {100, 5}, {0, 1}, {10, 1},
 	}
-	v2 := []Inaccurate{
+	v2 := []Uncertain{
 		{6, 0}, {0, 0}, {5, 0.5}, {2, 0.1}, {-200, 40}, {10, 1}, {0, 1},
 	}
 
-	res := []Inaccurate{
+	res := []Uncertain{
 		{42, 0}, {0, 0}, {50, 10}, {-4, 0.4}, {-20000, 5000}, {0, 11}, {0, 11},
 	}
 
@@ -80,14 +80,14 @@ func TestMul(t *testing.T) {
 }
 
 func TestMul2(t *testing.T) {
-	v1 := []Inaccurate{
+	v1 := []Uncertain{
 		{7, 0}, {0, 0}, {10, 1}, {-2, 0.1}, {100, 5}, {0, 1}, {10, 1},
 	}
-	v2 := []Inaccurate{
+	v2 := []Uncertain{
 		{6, 0}, {0, 0}, {5, 0.5}, {2, 0.1}, {-200, 40}, {10, 1}, {0, 1},
 	}
 
-	res := []Inaccurate{
+	res := []Uncertain{
 		{42, 0}, {0, 0}, {50, 10}, {-4, 0.4}, {-20000, 5000}, {0, 11}, {0, 11},
 	}
 
@@ -103,14 +103,14 @@ func TestMul2(t *testing.T) {
 }
 
 func TestDiv(t *testing.T) {
-	v1 := []Inaccurate{
+	v1 := []Uncertain{
 		{0, 10}, {0, 0}, {0, 10}, {10, 1}, {500, 25}, {-300, 20},
 	}
-	v2 := []Inaccurate{
+	v2 := []Uncertain{
 		{1, 0}, {1, 0}, {1, 0.1}, {10, 1}, {-10, 5}, {3, 0.5},
 	}
 
-	res := []Inaccurate{
+	res := []Uncertain{
 		{0, 10}, {0, 0}, {0, 11}, {1, 0.2}, {-50, 27.5}, {-100, 23.3333333333333},
 	}
 
@@ -130,14 +130,14 @@ func TestDiv(t *testing.T) {
 }
 
 func TestDiv2(t *testing.T) {
-	v1 := []Inaccurate{
+	v1 := []Uncertain{
 		{0, 10}, {0, 0}, {0, 10}, {10, 1}, {500, 25}, {-300, 20},
 	}
-	v2 := []Inaccurate{
+	v2 := []Uncertain{
 		{1, 0}, {1, 0}, {1, 0.1}, {10, 1}, {-10, 5}, {3, 0.5},
 	}
 
-	res := []Inaccurate{
+	res := []Uncertain{
 		{0, 10}, {0, 0}, {0, 11}, {1, 0.2}, {-50, 27.5}, {-100, 23.3333333333333},
 	}
 
@@ -153,7 +153,7 @@ func TestDiv2(t *testing.T) {
 }
 
 func TestAcos(t *testing.T) {
-	cases := [][2]Inaccurate{
+	cases := [][2]Uncertain{
 		{{-1, 0}, {3.14159265358979, 0}},
 		{{-1, 0.1}, {3.14159265358979, 0.451026811796262}},
 		{{-1, 0.2}, {3.14159265358979, 0.643501108793284}},
@@ -199,7 +199,7 @@ func TestAcosh(t *testing.T) {
 */
 
 func TestAsin(t *testing.T) {
-	cases := [][2]Inaccurate{
+	cases := [][2]Uncertain{
 		{{-1, 0}, {-1.5707963267949, 0}},
 		{{-1, 0.1}, {-1.5707963267949, 0.451026811796262}},
 		{{-1, 0.2}, {-1.5707963267949, 0.643501108793284}},
@@ -245,7 +245,7 @@ func TestAsinh(t *testing.T) {
 */
 
 func TestAtan(t *testing.T) {
-	cases := [][2]Inaccurate{
+	cases := [][2]Uncertain{
 		{{-1, 0}, {-0.785398163397448, 0}},
 		{{-1, 0.1}, {-0.785398163397448, 0.05}},
 		{{-1, 0.2}, {-0.785398163397448, 0.1}},

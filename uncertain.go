@@ -1,25 +1,25 @@
-package inaccurate
+package uncertain
 
 import "math"
 
-type Inaccurate struct {
+type Uncertain struct {
 	Value float64
 	Error float64
 }
 
-func (v1 Inaccurate) Add(v2 Inaccurate) (sum Inaccurate) {
+func (v1 Uncertain) Add(v2 Uncertain) (sum Uncertain) {
 	sum.Value = v1.Value + v2.Value
 	sum.Error = v1.Error + v2.Error
 	return
 }
 
-func (v1 Inaccurate) Sub(v2 Inaccurate) (diff Inaccurate) {
+func (v1 Uncertain) Sub(v2 Uncertain) (diff Uncertain) {
 	diff.Value = v1.Value - v2.Value
 	diff.Error = v1.Error + v2.Error
 	return
 }
 
-func (v1 Inaccurate) Mul(v2 Inaccurate) (product Inaccurate) {
+func (v1 Uncertain) Mul(v2 Uncertain) (product Uncertain) {
 	if v1.Value*v2.Value == 0 {
 		return v1.mul(v2)
 	}
@@ -38,7 +38,7 @@ func (v1 Inaccurate) Mul(v2 Inaccurate) (product Inaccurate) {
 	return
 }
 
-func (v1 Inaccurate) mul(v2 Inaccurate) (product Inaccurate) {
+func (v1 Uncertain) mul(v2 Uncertain) (product Uncertain) {
 	product.Value = v1.Value * v2.Value
 
 	var val [4]float64
@@ -59,7 +59,7 @@ func (v1 Inaccurate) mul(v2 Inaccurate) (product Inaccurate) {
 	return
 }
 
-func (v1 Inaccurate) Div(v2 Inaccurate) (quotient Inaccurate) {
+func (v1 Uncertain) Div(v2 Uncertain) (quotient Uncertain) {
 	if v1.Value == 0 {
 		return v1.div(v2)
 	}
@@ -74,7 +74,7 @@ func (v1 Inaccurate) Div(v2 Inaccurate) (quotient Inaccurate) {
 	return
 }
 
-func (v1 Inaccurate) div(v2 Inaccurate) (quotient Inaccurate) {
+func (v1 Uncertain) div(v2 Uncertain) (quotient Uncertain) {
 	rel := v2.Error / v2.Value
 	v2.Value = 1 / v2.Value
 	v2.Error = v2.Value * rel
@@ -82,7 +82,7 @@ func (v1 Inaccurate) div(v2 Inaccurate) (quotient Inaccurate) {
 	return v1.mul(v2)
 }
 
-func Acos(v Inaccurate) (result Inaccurate) {
+func Acos(v Uncertain) (result Uncertain) {
 	if v.Error == 0 {
 		result.Value = math.Acos(v.Value)
 		result.Error = 0
@@ -108,7 +108,7 @@ func Acos(v Inaccurate) (result Inaccurate) {
 
 //func Acosh(x float64) float64
 
-func Asin(v Inaccurate) (result Inaccurate) {
+func Asin(v Uncertain) (result Uncertain) {
 	result.Value = math.Asin(v.Value)
 
 	if v.Error == 0 {
@@ -131,7 +131,7 @@ func Asin(v Inaccurate) (result Inaccurate) {
 
 //func Asinh(x float64) float64
 
-func Atan(v Inaccurate) (result Inaccurate) {
+func Atan(v Uncertain) (result Uncertain) {
 	result.Value = math.Atan(v.Value)
 	result.Error = v.Error * (1.0 / (1.0 + v.Value*v.Value))
 	return
