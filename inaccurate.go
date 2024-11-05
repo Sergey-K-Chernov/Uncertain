@@ -68,7 +68,7 @@ func (v1 Inaccurate) Div(v2 Inaccurate) (quotient Inaccurate) {
 
 	relError := 0.0
 	relError += v1.Error / math.Abs(v1.Value)
-	relError += v2.Error / math.Abs(v2.Value) // No  need to check for division by zero: in this case function will fail in the first line
+	relError += v2.Error / math.Abs(v2.Value) // No  need to check for division by zero: in this case function will fail in the fourth line
 
 	quotient.Error = relError * math.Abs(quotient.Value)
 	return
