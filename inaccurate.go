@@ -106,29 +106,45 @@ func Acos(v Inaccurate) (result Inaccurate) {
 	return
 }
 
-/*
+//func Acosh(x float64) float64
 
-func Acos(x float64) float64
-func Acosh(x float64) float64
-func Asin(x float64) float64
-func Asinh(x float64) float64
-func Atan(x float64) float64
-func Atan2(y, x float64) float64
-func Atanh(x float64) float64
-func Cbrt(x float64) float64
-func Cos(x float64) float64
-func Cosh(x float64) float64
-func Exp(x float64) float64
-func Exp2(x float64) float64
-func Log(x float64) float64
-func Log10(x float64) float64
-func Log2(x float64) float64
-func Pow(x, y float64) float64
-func Pow10(n int) float64
-func Sin(x float64) float64
-func Sinh(x float64) float64
-func Sqrt(x float64) float64
-func Tan(x float64) float64
-func Tanh(x float64) float64
+func Asin(v Inaccurate) (result Inaccurate) {
+	result.Value = math.Asin(v.Value)
 
-*/
+	if v.Error == 0 {
+		result.Error = 0
+		return
+	}
+
+	if v.Value == -1 {
+		result.Error = math.Asin(-1+v.Error) - result.Value
+		return
+	}
+	if v.Value == 1 {
+		result.Error = result.Value - math.Asin(1-v.Error)
+		return
+	}
+
+	result.Error = math.Abs(1 / (math.Sqrt(1 - v.Value*v.Value)) * v.Error)
+	return
+}
+
+//func Asinh(x float64) float64
+//func Atan(x float64) float64
+//func Atan2(y, x float64) float64
+//func Atanh(x float64) float64
+//func Cbrt(x float64) float64
+//func Cos(x float64) float64
+//func Cosh(x float64) float64
+//func Exp(x float64) float64
+//func Exp2(x float64) float64
+//func Log(x float64) float64
+//func Log10(x float64) float64
+//func Log2(x float64) float64
+//func Pow(x, y float64) float64
+//func Pow10(n int) float64
+//func Sin(x float64) float64
+//func Sinh(x float64) float64
+//func Sqrt(x float64) float64
+//func Tan(x float64) float64
+//func Tanh(x float64) float64
