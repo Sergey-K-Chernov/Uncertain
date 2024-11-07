@@ -220,6 +220,10 @@ func Atan2(y, x Uncertain) (result Uncertain) {
 		min = math.Min(min, res[i])
 		max = math.Max(max, res[i])
 	}
+	if min == -max && max == math.Pi {
+		result.Error = 0
+		return
+	}
 
 	result.Error = math.Abs((max - min) / 2)
 	return
