@@ -133,6 +133,7 @@ func Acos(v Uncertain) (result Uncertain) {
 	return
 }
 
+// TODO
 //func Acosh(x float64) float64
 
 // Asin returns the arcsine, in radians, of v.Value and propagates error.
@@ -162,6 +163,7 @@ func Asin(v Uncertain) (result Uncertain) {
 	return
 }
 
+// TODO
 //func Asinh(x float64) float64
 
 // Atan returns the arctangent, in radians, of v.Value and propagates error.
@@ -180,58 +182,93 @@ func Atan(v Uncertain) (result Uncertain) {
 // the signs of the two to determine the quadrant
 // of the return value, and propagates error.
 //
-// Special cases are (in order):
+// Special cases for values are the same as the special cases for math.Atan2
+// Special cases for errors are:
 //
 //	Atan2({y, ey}, {NaN, ex}) = {NaN, _}
 //	Atan2({NaN, ey}, {x, ex}) = {NaN, _}
-//	Atan2({+0, ey}, {x>=0, ex}) = {+0, ???}
-//	Atan2({-0, ey}, {x>=0, ex}) = {-0, ???}
-//	Atan2({+0, ey}, {x<=-0, ex}) = {+Pi, ???}
-//	Atan2({-0, ey}, {x<=-0, ex}) = {-Pi, ???}
-//	Atan2({y>0, ey}, {0, ex}) = {+Pi/2, ???}
-//	Atan2({y<0, ey}, {0, ex}) = {-Pi/2, ???}
-//	Atan2({+Inf, ey}, {+Inf, ex}) = {+Pi/4, ???}
-//	Atan2({-Inf, ey}, {+Inf, ex}) = {-Pi/4, ???}
-//	Atan2({+Inf, ey}, {-Inf, ex}) = {3Pi/4, ???}
-//	Atan2({-Inf, ey}, {-Inf, ex}) = {-3Pi/4, ???}
-//	Atan2({y, ey}, {+Inf, ex}) = {0, ???}
-//	Atan2({y>0, ey}, {-Inf, ex}) = {+Pi, ???}
-//	Atan2({y<0, ey}, {-Inf, ex}) = {-Pi, ???}
-//	Atan2({+Inf, ey}, {x, ex}) = {+Pi/2, ???}
-//	Atan2({-Inf, ey}, {x, ex}) = {-Pi/2, ???}
+//	Atan2({±0, 0}, {x>=0, ex}) = {±0, 0}
+//	Atan2({±0, 0}, {x<=-0, ex}) = {±Pi, 0}
+//	Atan2({y>0, ey}, {0, 0}) = {+Pi/2, 0}
+//	Atan2({y<0, ey}, {0, 0}) = {-Pi/2, 0}
+//	Atan2({+Inf, ey}, {+Inf, ex}) = {+Pi/4, 0}
+//	Atan2({-Inf, ey}, {+Inf, ex}) = {-Pi/4, 0}
+//	Atan2({+Inf, ey}, {-Inf, ex}) = {3Pi/4, 0}
+//	Atan2({-Inf, ey}, {-Inf, ex}) = {-3Pi/4, 0}
+//	Atan2({y, ey}, {+Inf, ex}) = {0, 0}
+//	Atan2({y>0, ey}, {-Inf, ex}) = {+Pi, 0}
+//	Atan2({y<0, ey}, {-Inf, ex}) = {-Pi, 0}
+//	Atan2({+Inf, ey}, {x, ex}) = {+Pi/2, 0}
+//	Atan2({-Inf, ey}, {x, ex}) = {-Pi/2, 0}
 func Atan2(y, x Uncertain) (result Uncertain) {
+	var res [4]float64
+	result.Value = math.Atan2(y.Value, x.Value)
 
+	if y.Value == math.Inf(1) || y.Value == math.Inf(-1) || x.Value == math.Inf(1) || x.Value == math.Inf(-1) {
+		result.Error = 0
+		return
+	}
+
+	res[0] = math.Atan2(y.Value+y.Error, x.Value+x.Error)
+	res[1] = math.Atan2(y.Value+y.Error, x.Value-x.Error)
+	res[2] = math.Atan2(y.Value-y.Error, x.Value+x.Error)
+	res[3] = math.Atan2(y.Value-y.Error, x.Value-x.Error)
+
+	min, max := res[0], res[0]
+
+	for i := 1; i < 4; i++ {
+		min = math.Min(min, res[i])
+		max = math.Max(max, res[i])
+	}
+
+	result.Error = math.Abs((max - min) / 2)
 	return
 }
 
+// TODO
 //func Atanh(x float64) float64
 
+// TODO
 //func Cbrt(x float64) float64
 
+// TODO
 //func Cos(x float64) float64
 
+// TODO
 //func Cosh(x float64) float64
 
+// TODO
 //func Exp(x float64) float64
 
+// TODO
 //func Exp2(x float64) float64
 
+// TODO
 //func Log(x float64) float64
 
+// TODO
 //func Log10(x float64) float64
 
+// TODO
 //func Log2(x float64) float64
 
+// TODO
 //func Pow(x, y float64) float64
 
+// TODO
 //func Pow10(n int) float64
 
+// TODO
 //func Sin(x float64) float64
 
+// TODO
 //func Sinh(x float64) float64
 
+// TODO
 //func Sqrt(x float64) float64
 
+// TODO
 //func Tan(x float64) float64
 
+// TODO
 //func Tanh(x float64) float64
