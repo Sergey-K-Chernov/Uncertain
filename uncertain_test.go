@@ -6,6 +6,9 @@ import (
 )
 
 func almostEqual(a, b Uncertain) bool {
+	if a.Value == math.Inf(1) || b.Value == math.Inf(1) || a.Value == math.Inf(-1) || b.Value == math.Inf(-1) {
+		return (a.Value == b.Value && a.Error == b.Error)
+	}
 	threshold := 0.0000000000001
 	return (math.Abs(a.Value-b.Value) <= threshold) && (math.Abs(a.Error-b.Error) <= threshold)
 }
@@ -104,14 +107,14 @@ func TestMul2(t *testing.T) {
 
 func TestDiv(t *testing.T) {
 	v1 := []Uncertain{
-		{0, 10}, {0, 0}, {0, 10}, {10, 1}, {500, 25}, {-300, 20},
+		{0, 10}, {0, 0}, {0, 10}, {10, 1}, {500, 25}, {-300, 20}, {10, 3}, {-10, 3},
 	}
 	v2 := []Uncertain{
-		{1, 0}, {1, 0}, {1, 0.1}, {10, 1}, {-10, 5}, {3, 0.5},
+		{1, 0}, {1, 0}, {1, 0.1}, {10, 1}, {-10, 5}, {3, 0.5}, {0, 4}, {0, 4},
 	}
 
 	res := []Uncertain{
-		{0, 10}, {0, 0}, {0, 11}, {1, 0.2}, {-50, 27.5}, {-100, 23.3333333333333},
+		{0, 10}, {0, 0}, {0, 11}, {1, 0.2}, {-50, 27.5}, {-100, 23.3333333333333}, {math.Inf(1), math.Inf(1)}, {math.Inf(-1), math.Inf(1)},
 	}
 
 	if len(v1) != len(v2) || len(v1) != len(res) {
