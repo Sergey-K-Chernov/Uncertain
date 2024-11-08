@@ -78,7 +78,7 @@ func (v1 Uncertain) mul(v2 Uncertain) (product Uncertain) {
 // Special cases are:
 //
 //  v1.Value = 0 - impossible to calculate relative error if the value is zero. Error is calculated by special function.
-//  v2.Value = 0 - if he divisor value is 0, both value and error of the result are NaN.
+//  v2.Value = 0 - if the divisor value is 0, both value and error of the result are Inf.
 func (v1 Uncertain) Div(v2 Uncertain) (quotient Uncertain) {
 	if v1.Value == 0 {
 		return v1.div(v2)
