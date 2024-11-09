@@ -273,8 +273,18 @@ func Cos(v Uncertain) (result Uncertain) {
 // TODO
 //func Pow10(n int) float64
 
-// TODO
+// Sin returns the sine of the radian argument v.Value and propagates error.
+//
+// Special cases are:
+//
+//	Sin({±0, e}) = {±0, }
+//	Sin({±Inf, e}) = {NaN, _}
+//	Sin({NaN, e}) = {NaN, _}
 func Sin(v Uncertain) (result Uncertain) {
+	s, c := math.Sincos(v.Value)
+
+	result.Value = s
+	result.Error = math.Abs(c * v.Error)
 	return
 }
 
