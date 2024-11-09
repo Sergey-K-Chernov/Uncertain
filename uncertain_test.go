@@ -308,7 +308,7 @@ func TestAtan(t *testing.T) {
 
 		if math.IsNaN(res.Value) {
 			if !math.IsNaN(the_case[1].Value) {
-				t.Fatalf("Test case %d failed: Acos(%f±%f) is %f±%f, got %f±%f",
+				t.Fatalf("Test case %d failed: Atan(%f±%f) is %f±%f, got %f±%f",
 					i, the_case[0].Value, the_case[0].Error, the_case[1].Value, the_case[1].Error, res.Value, res.Error)
 			} else {
 				continue
@@ -420,6 +420,105 @@ func TestAtan2(t *testing.T) {
 }
 
 /*
+// TODO
 func TestAtanh(t *testing.T) {
 }
 */
+
+// TODO
+//func TestCbrt(t *testing.T)
+
+func TestCos(t *testing.T) {
+	cases := [][2]Uncertain{
+		{{math.Inf(-1), 10000}, {math.NaN(), 0}},
+		{{math.Inf(1), 10000}, {math.NaN(), 0}},
+		{{math.NaN(), 10000}, {math.NaN(), 0}},
+
+		{{0, 0}, {1, 0}},
+		{{0, 0.05}, {1, 0}},
+		{{0.1, 0}, {0.995004165278026, 0}},
+		{{0.1, 0.01}, {0.995004165278026, 0.000998334166468}},
+		{{-0.1, 0}, {0.995004165278026, 0}},
+		{{-0.1, 0.01}, {0.995004165278026, 0.000998334166468}},
+		{{1, 0.05}, {0.54030230586814, 0.042073549240395}},
+		{{-1, 0.05}, {0.54030230586814, 0.042073549240395}},
+		{{math.Pi / 6, 0}, {0.866025403784439, 0}},
+		{{math.Pi / 6, 0.1}, {0.866025403784439, 0.05}},
+		{{-math.Pi / 6, 0}, {0.866025403784439, 0}},
+		{{-math.Pi / 6, 0.1}, {0.866025403784439, 0.05}},
+		{{math.Pi / 4, 0}, {0.707106781186548, 0}},
+		{{math.Pi / 4, 0.1}, {0.707106781186548, 0.070710678118655}},
+		{{-math.Pi / 4, 0}, {0.707106781186548, 0}},
+		{{-math.Pi / 4, 0.1}, {0.707106781186548, 0.070710678118655}},
+		{{math.Pi / 3, 0}, {0.5, 0}},
+		{{math.Pi / 3, 0.1}, {0.5, 0.086602540378444}},
+		{{-math.Pi / 3, 0}, {0.5, 0}},
+		{{-math.Pi / 3, 0.1}, {0.5, 0.086602540378444}},
+		{{math.Pi / 2, 0}, {6.12323399573677e-17, 0}},
+		{{math.Pi / 2, 0.1}, {6.12323399573677e-17, 0.1}},
+		{{-math.Pi / 2, 0}, {6.12323399573677e-17, 0}},
+		{{-math.Pi / 2, 0.1}, {6.12323399573677e-17, 0.1}},
+
+		{{3 * math.Pi / 4, 0}, {-0.707106781186547, 0}},
+		{{3 * math.Pi / 4, 0.1}, {-0.707106781186547, 0.070710678118655}},
+		{{-3 * math.Pi / 4, 0}, {-0.707106781186547, 0}},
+		{{-3 * math.Pi / 4, 0.1}, {-0.707106781186547, 0.070710678118655}},
+		{{math.Pi, 0}, {-1, 0}},
+		{{math.Pi, 0.1}, {-1, 1.22464679914735e-17}},
+		{{-math.Pi, 0}, {-1, 0}},
+		{{-math.Pi, 0.1}, {-1, 1.22464679914735e-17}},
+
+		{{3 * math.Pi / 2, 0}, {-1.83697019872103e-16, 0}},
+		{{3 * math.Pi / 2, 0.1}, {-1.83697019872103e-16, 0.1}},
+		{{-3 * math.Pi / 2, 0}, {-1.83697019872103e-16, 0}},
+		{{-3 * math.Pi / 2, 0.1}, {-1.83697019872103e-16, 0.1}},
+		{{2 * math.Pi, 0}, {1, 0}},
+		{{2 * math.Pi, 0.1}, {1, 2.44929359829471e-17}},
+		{{3 * math.Pi, 0}, {-1, 0}},
+		{{3 * math.Pi, 0.1}, {-1, 3.67394039744206e-17}},
+		{{4 * math.Pi, 0.1}, {1, 4.89858719658941e-17}},
+		{{-4 * math.Pi, 0.1}, {1, 4.89858719658941e-17}},
+	}
+
+	for i, the_case := range cases {
+		res := Cos(the_case[0])
+
+		if math.IsNaN(res.Value) {
+			if !math.IsNaN(the_case[1].Value) {
+				t.Fatalf("Test case %d failed: Cos(%f±%f) is %f±%f, got %f±%f",
+					i, the_case[0].Value, the_case[0].Error, the_case[1].Value, the_case[1].Error, res.Value, res.Error)
+			} else {
+				continue
+			}
+		}
+
+		if !almostEqual(res, the_case[1]) {
+			t.Fatalf("Test case %d failed: Cos(%f±%f) is %f±%f, got %f±%f",
+				i, the_case[0].Value, the_case[0].Error, the_case[1].Value, the_case[1].Error, res.Value, res.Error)
+		}
+	}
+}
+
+// TODO
+//func Cosh(t *testing.T) {
+
+// TODO
+//func Exp(t *testing.T) {
+
+// TODO
+//func Exp2(t *testing.T) {
+
+// TODO
+//func Log(t *testing.T) {
+
+// TODO
+//func Log10(t *testing.T) {
+
+// TODO
+//func Log2(t *testing.T) {
+
+// TODO
+//func Pow(t *testing.T) {
+
+// TODO
+//func Pow10(t *testing.T) {

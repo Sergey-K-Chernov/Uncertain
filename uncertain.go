@@ -235,8 +235,19 @@ func Atan2(y, x Uncertain) (result Uncertain) {
 // TODO
 //func Cbrt(x float64) float64
 
-// TODO
-//func Cos(x float64) float64
+// Cos returns the cosine of the radian argument v.Value and propagates error.
+//
+// Special cases are:
+//
+//	Cos({±Inf, e}) = {NaN, _}
+//	Cos({NaN, e}) = {NaN, _}
+func Cos(v Uncertain) (result Uncertain) {
+	s, c := math.Sincos(v.Value)
+
+	result.Value = c
+	result.Error = math.Abs(-s * v.Error)
+	return
+}
 
 // TODO
 //func Cosh(x float64) float64
@@ -263,16 +274,22 @@ func Atan2(y, x Uncertain) (result Uncertain) {
 //func Pow10(n int) float64
 
 // TODO
-//func Sin(x float64) float64
+func Sin(v Uncertain) (result Uncertain) {
+	return
+}
 
 // TODO
 //func Sinh(x float64) float64
 
 // TODO
-//func Sqrt(x float64) float64
+func Sqrt(v Uncertain) (result Uncertain) {
+	return
+}
 
 // TODO
-//func Tan(x float64) float64
+func Tan(v Uncertain) (result Uncertain) {
+	return
+}
 
 // TODO
 //func Tanh(x float64) float64
