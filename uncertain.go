@@ -8,7 +8,7 @@
 // For function f(x) abolute error of a result is an abolute error of an argument multiplied by a function's derivative.
 package uncertain
 
-// Uncetraint type represents an uncertain value, i.e., value with error
+// Uncetrain type represents an uncertain value, i.e., value with error
 type Uncertain struct {
 	Value float64
 	Error float64
