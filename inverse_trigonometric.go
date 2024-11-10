@@ -31,6 +31,11 @@ func Acos(v Uncertain) (result Uncertain) {
 	return
 }
 
+// Arccos is a synonym for Acos
+func Arccos(v Uncertain) (result Uncertain) {
+	return Acos(v)
+}
+
 // Asin returns the arcsine, in radians, of v.Value and propagates error.
 //
 // Special cases are:
@@ -58,6 +63,11 @@ func Asin(v Uncertain) (result Uncertain) {
 	return
 }
 
+// Arcsin is a synonym for Asin
+func Arcsin(v Uncertain) (result Uncertain) {
+	return Asin(v)
+}
+
 // Atan returns the arctangent, in radians, of v.Value and propagates error.
 //
 // Special cases are:
@@ -68,6 +78,11 @@ func Atan(v Uncertain) (result Uncertain) {
 	result.Value = math.Atan(v.Value)
 	result.Error = v.Error * (1.0 / (1.0 + v.Value*v.Value))
 	return
+}
+
+// Arctg is a synonym for Atan
+func Arctg(v Uncertain) (result Uncertain) {
+	return Atan(v)
 }
 
 // Atan2 returns the arc tangent of y/x, using

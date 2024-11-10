@@ -59,12 +59,6 @@ func TestAtanh(t *testing.T) {
 //func Log10(t *testing.T) {
 
 // TODO
-//func Log2(t *testing.T) {
-
-// TODO
-//func Pow(t *testing.T) {
-
-// TODO
 //func Pow10(t *testing.T) {
 
 // TODO

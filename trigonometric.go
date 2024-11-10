@@ -62,3 +62,8 @@ func Tan(v Uncertain) (result Uncertain) {
 	result.Error = (result.Value*result.Value + 1) * v.Error
 	return
 }
+
+//Tg is a synonym for Tan
+func Tg(v Uncertain) (result Uncertain) {
+	return Tan(v)
+}
