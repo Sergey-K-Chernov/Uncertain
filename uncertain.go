@@ -3,7 +3,7 @@
 //
 // For + and - operations absolute error is a sum of absolute errors of operands.
 //
-// For * and - operations relative error is a sum of relative errors of operands.
+// For * and / operations relative error is a sum of relative errors of operands.
 //
 // For function f(x) abolute error of a result is an abolute error of an argument multiplied by a function's derivative.
 package uncertain
